@@ -16,10 +16,5 @@ class MainApp:
         notebook.add(tab_msl, text="MS Label")
         notebook.add(tab_disp, text="Disp Label")   
 
-
-
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = MainApp(root)
-    #app = MSLabelUI(root)
-    root.mainloop()
+    MainApp(tk.Tk()).root.mainloop()

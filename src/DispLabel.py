@@ -50,7 +50,6 @@ class DispLabelUI(ttk.Frame):
         self.canvas = tk.Canvas(main_frame, width=500, height=300, bg='white')
         self.canvas.pack(pady=10)
 
-
     def generate_label(self):
         proc_order = self.proc_order_entry.get().strip()
         mat_code = self.mat_code_entry.get().strip()

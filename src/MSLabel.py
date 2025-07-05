@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field
-from Common import CodeType
 import tkinter as tk
 from tkinter import ttk, messagebox
 import qrcode
