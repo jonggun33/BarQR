@@ -1,0 +1,12 @@
+[project]
+name = "barqr"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pillow>=11.3.0",
+    "pip>=25.1.1",
+    "python-barcode>=0.15.1",
+    "qrcode>=8.2",
+]
