@@ -1,8 +1,8 @@
 import tkinter as tk
 from MSLabel import MSLabelUI  # Assuming MSLabelUI is defined in MSLabel.py
 from tkinter import ttk, messagebox
-from MSLabel import MSLabelUI
-from DispLabel import DispLabelUI
+from DispLabel import  DispLabel
+from LabelUI import MSLabel, LabelUI  # Assuming LabelUI is defined in LabelUI.py
 
 class MainApp:
     def __init__(self, root):
@@ -11,10 +11,15 @@ class MainApp:
         self.root.geometry("1000x1000")
         notebook = ttk.Notebook(root)
         notebook.pack(expand=True, fill="both")
-        tab_msl = MSLabelUI(notebook)
-        tab_disp = DispLabelUI(notebook)
-        notebook.add(tab_msl, text="MS Label")
-        notebook.add(tab_disp, text="Disp Label")   
+        #tab_msl = MSLabelUI(notebook)
+        #tab_disp = DispLabelUI(notebook)
+        #notebook.add(tab_msl, text="MS Label")
+        #notebook.add(tab_disp, text="Disp Label")   
+        tab_msl = LabelUI(notebook, MSLabel, file_path="output/ms_labels.csv")  # Assuming LabelUI takes a model class and a file path
+        notebook.add(tab_msl, text="Label UI")
+        tab_disp = LabelUI(notebook, DispLabel, file_path="output/disp_labels.csv")
+        notebook.add(tab_disp, text="Disp Label UI")
+
 
 if __name__ == "__main__":
     MainApp(tk.Tk()).root.mainloop()

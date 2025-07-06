@@ -47,7 +47,7 @@ class DispLabelUI(ttk.Frame):
         self.generate_btn.pack(pady=10) 
         self.label_display = ttk.Label(main_frame, text="", font=("Arial", 14))
         self.label_display.pack(pady=10)    
-        self.canvas = tk.Canvas(main_frame, width=500, height=300, bg='white')
+        self.canvas = tk.Canvas(main_frame, width=800, height=300, bg='white')
         self.canvas.pack(pady=10)
 
     def generate_label(self):
@@ -66,5 +66,5 @@ class DispLabelUI(ttk.Frame):
         buffer.seek(0)
         generated_img = Image.open(buffer)
         tk_img = ImageTk.PhotoImage(generated_img)
-        self.canvas.create_image(150, 150, image=tk_img)
+        self.canvas.create_image(350, 150, image=tk_img)
         self.canvas.image = tk_img  # Keep a reference to avoid garbage collection
