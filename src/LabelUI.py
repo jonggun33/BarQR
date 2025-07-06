@@ -41,10 +41,11 @@ class LabelUI(ttk.Frame):
         frm.columnconfigure(1, weight=1)
 
         sep = ttk.Separator(frm, orient='horizontal')
-        sep.grid(row=row+1, column=0, columnspan=3, sticky='ew', pady=10)
-        self.tree = ttk.Treeview(frm, columns=list(self.model_cls.__annotations__.keys()), show='headings')
-        self.tree.grid(row=row+2, column=0, columnspan=3, sticky='nsew')
+        # Make the treeview expand to fill available vertical space
         frm.rowconfigure(row+2, weight=1)
+        sep.grid(row=row+1, column=0, columnspan=3, sticky='ew', pady=10 )
+        self.tree = ttk.Treeview(frm, show='headings', height=20)
+        self.tree.grid(row=row+2, column=0, columnspan=3, sticky='nsew')
         vsb = ttk.Scrollbar(frm, orient="vertical", command=self.tree.yview)
         vsb.grid(row=row+2, column=3, sticky='ns')
         hsb = ttk.Scrollbar(frm, orient="horizontal", command=self.tree.xview)
@@ -93,6 +94,24 @@ class LabelUI(ttk.Frame):
             generated_img = generated_img.resize((300, 300))  # Resize for better display
             self.contents.config(text=str(self.model))
         elif self.model_cls.__name__ == 'DispLabel':
+            barcode_class = barcode.get_barcode_class("code128")
+            code = barcode_class(str(self.model), writer=barcode.writer.ImageWriter())
+            buffer = io.BytesIO()
+            code.write(buffer)
+            buffer.seek(0)
+            generated_img = Image.open(buffer)
+            generated_img = generated_img.resize((480, 180))  # Resize for better display
+            self.contents.config(text=str(self.model))
+        elif self.model_cls.__name__ == 'HalbLabel':
+            barcode_class = barcode.get_barcode_class("code128")
+            code = barcode_class(str(self.model), writer=barcode.writer.ImageWriter())
+            buffer = io.BytesIO()
+            code.write(buffer)
+            buffer.seek(0)
+            generated_img = Image.open(buffer)
+            generated_img = generated_img.resize((480, 180))  # Resize for better display
+            self.contents.config(text=str(self.model))
+        elif self.model_cls.__name__ == 'CleaningLabel':
             barcode_class = barcode.get_barcode_class("code128")
             code = barcode_class(str(self.model), writer=barcode.writer.ImageWriter())
             buffer = io.BytesIO()
