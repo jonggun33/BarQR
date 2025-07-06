@@ -1,8 +1,8 @@
 import tkinter as tk
-from MSLabel import MSLabelUI  # Assuming MSLabelUI is defined in MSLabel.py
 from tkinter import ttk, messagebox
 from DispLabel import  DispLabel
-from LabelUI import MSLabel, LabelUI  # Assuming LabelUI is defined in LabelUI.py
+from LabelUI import MSLabel  # Assuming LabelUI is defined in LabelUI.py
+from LabelUI import LabelUI  # Assuming LabelUI is defined in LabelUI.py
 
 class MainApp:
     def __init__(self, root):
