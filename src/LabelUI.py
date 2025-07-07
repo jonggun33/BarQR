@@ -33,7 +33,7 @@ class LabelUI(ttk.Frame):
         # Canvas for image/label preview
         self.canvas = tk.Canvas(frm, width=300, height=300, bg='white')
         self.canvas.grid(row=0, column=2, rowspan=row, padx=10)
-        self.contents = ttk.Label(frm, text = "")
+        self.contents = tk.Text(frm, height=6, width=40, wrap='word', state='disabled')
         self.contents.grid(row=row, column=2, sticky='ew', pady=10)
         show_btn = ttk.Button(frm, text="Show Bar/QR code", command=self.show_barcode)
         show_btn.grid(row=row, column=0, columnspan=2, pady=10)
@@ -97,7 +97,10 @@ class LabelUI(ttk.Frame):
             pdf_img = pdf417gen.render_image(codes, scale=6, ratio=3)
             generated_img = pdf_img.convert("RGB")
             generated_img = generated_img.resize((500, 300))  # Resize for better display
-            self.contents.config(text=str(self.model))
+            self.contents.config(state='normal')
+            self.contents.delete('1.0', tk.END)
+            self.contents.insert(tk.END, str(self.model))
+            self.contents.config(state='disabled')
         elif self.model_cls.__name__ == 'DispLabel':
             qr = qrcode.QRCode(
                 version=1,
@@ -109,7 +112,10 @@ class LabelUI(ttk.Frame):
             qr.make(fit=True)
             generated_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
             generated_img = generated_img.resize((300, 300))  # Resize for better display
-            self.contents.config(text=str(self.model))
+            self.contents.config(state='normal')
+            self.contents.delete('1.0', tk.END)
+            self.contents.insert(tk.END, str(self.model))
+            self.contents.config(state='disabled')
         elif self.model_cls.__name__ == 'HalbLabel':
             qr = qrcode.QRCode(
                 version=1,
@@ -121,6 +127,10 @@ class LabelUI(ttk.Frame):
             qr.make(fit=True)
             generated_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
             generated_img = generated_img.resize((300, 300))  # Resize for better display
+            self.contents.config(state='normal')
+            self.contents.delete('1.0', tk.END)
+            self.contents.insert(tk.END, str(self.model))
+            self.contents.config(state='disabled')
         elif self.model_cls.__name__ == 'CleaningLabel':
             barcode_class = barcode.get_barcode_class("code128")
             code = barcode_class(str(self.model), writer=barcode.writer.ImageWriter())
@@ -129,7 +139,10 @@ class LabelUI(ttk.Frame):
             buffer.seek(0)
             generated_img = Image.open(buffer)
             generated_img = generated_img.resize((480, 180))  # Resize for better display
-            self.contents.config(text=str(self.model))
+            self.contents.config(state='normal')
+            self.contents.delete('1.0', tk.END)
+            self.contents.insert(tk.END, str(self.model))
+            self.contents.config(state='disabled')
         # Resize image to fit inside the canvas while maintaining aspect ratio
         img_w, img_h = generated_img.size
         canvas_w = int(self.canvas['width'])
