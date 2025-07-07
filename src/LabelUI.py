@@ -8,6 +8,7 @@ import csv
 import qrcode
 import barcode
 import io
+import pdf417gen
 
 class LabelUI(ttk.Frame):
     def __init__(self, parent, model_cls, file_path):
@@ -63,6 +64,7 @@ class LabelUI(ttk.Frame):
             if field in self.inputs:
                 self.inputs[field].delete(0, tk.END)
                 self.inputs[field].insert(0, values[idx])
+        self.show_barcode()  # Update the barcode display with the selected row's data
 
     def save(self):
         self._fill_model()
@@ -90,27 +92,35 @@ class LabelUI(ttk.Frame):
     def show_barcode(self):
         self._fill_model()
         if self.model_cls.__name__ == 'MSLabel':
-            generated_img = qrcode.make(self.model.__str__())
-            generated_img = generated_img.resize((300, 300))  # Resize for better display
+            # Generate PDF417 barcode as a PIL image
+            codes = pdf417gen.encode(str(self.model), columns=6, security_level=2)
+            pdf_img = pdf417gen.render_image(codes, scale=6, ratio=3)
+            generated_img = pdf_img.convert("RGB")
+            generated_img = generated_img.resize((500, 300))  # Resize for better display
             self.contents.config(text=str(self.model))
         elif self.model_cls.__name__ == 'DispLabel':
-            barcode_class = barcode.get_barcode_class("code128")
-            code = barcode_class(str(self.model), writer=barcode.writer.ImageWriter())
-            buffer = io.BytesIO()
-            code.write(buffer)
-            buffer.seek(0)
-            generated_img = Image.open(buffer)
-            generated_img = generated_img.resize((480, 180))  # Resize for better display
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_H,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(str(self.model))
+            qr.make(fit=True)
+            generated_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
+            generated_img = generated_img.resize((300, 300))  # Resize for better display
             self.contents.config(text=str(self.model))
         elif self.model_cls.__name__ == 'HalbLabel':
-            barcode_class = barcode.get_barcode_class("code128")
-            code = barcode_class(str(self.model), writer=barcode.writer.ImageWriter())
-            buffer = io.BytesIO()
-            code.write(buffer)
-            buffer.seek(0)
-            generated_img = Image.open(buffer)
-            generated_img = generated_img.resize((480, 180))  # Resize for better display
-            self.contents.config(text=str(self.model))
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_H,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(str(self.model))
+            qr.make(fit=True)
+            generated_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
+            generated_img = generated_img.resize((300, 300))  # Resize for better display
         elif self.model_cls.__name__ == 'CleaningLabel':
             barcode_class = barcode.get_barcode_class("code128")
             code = barcode_class(str(self.model), writer=barcode.writer.ImageWriter())
@@ -158,15 +168,3 @@ class LabelUI(ttk.Frame):
                 self.tree.column(col, anchor='w')
             for row in reader:
                 self.tree.insert("", "end", values=list(row.values()))
-
-# Example model class
-
-@dataclass
-class LabelModel:
-    name: str
-    code: str
-    price: str
-
-if __name__ == "__main__":
-    app = LabelUI(MSLabel)
-    app.mainloop()

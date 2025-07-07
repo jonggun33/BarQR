@@ -14,13 +14,13 @@ class MainApp:
         self.root.geometry("900x750")
         notebook = ttk.Notebook(root)
         notebook.pack(expand=True, fill="both")
-        tab_msl = LabelUI(notebook, MSLabel, file_path="output/ms_labels.csv")  # Assuming LabelUI takes a model class and a file path
+        tab_msl = LabelUI(notebook, MSLabel, file_path="ms_labels.csv")  # Assuming LabelUI takes a model class and a file path
         notebook.add(tab_msl, text="Material Status Label")
-        tab_disp = LabelUI(notebook, DispLabel, file_path="output/disp_labels.csv")
+        tab_disp = LabelUI(notebook, DispLabel, file_path="disp_labels.csv")
         notebook.add(tab_disp, text="Dispensing Label")
-        tab_cleaning = LabelUI(notebook, CleaningLabel, file_path="output/cleaning_labels.csv")
+        tab_cleaning = LabelUI(notebook, CleaningLabel, file_path="cleaning_labels.csv")
         notebook.add(tab_cleaning, text="Cleaning Label")
-        tab_halb = LabelUI(notebook, HalbLabel, file_path="output/halb_labels.csv")
+        tab_halb = LabelUI(notebook, HalbLabel, file_path="halb_labels.csv")
         notebook.add(tab_halb, text="Halb Label")
 
 

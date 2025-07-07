@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field
 
 class HalbLabel(BaseModel):
-    mat_code: str = Field(..., description="Material code for the label")
-    control_no: str = Field(..., description="Control number for the label")
-    batch_no: str = Field(..., description="Batch number for the label")
+    batch_id: str = Field(...)
+    second:str = Field(...)
+    third: str = Field(...)
     def __str__(self):
-        return str(self.model_dump_json() )
+        return f"{self.batch_id}_{self.second}_{self.third}"

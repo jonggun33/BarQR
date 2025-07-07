@@ -7,9 +7,20 @@ import io
 from PIL import ImageTk
 
 class DispLabel(BaseModel):
-    proc_order: str = Field(..., description="Process order for the label")
-    mat_code: str = Field(..., description="Material code for the label")
-    container_id: str = Field(..., description="Container ID for the label")
+    scan_type: str = Field(..., description="Type of scan for the label")
+    charg:str = Field(..., description="Charge number for the label")
+    matnr:str = Field(..., description="Material number for the label")
+    ccharge:str =Field(...)
+    rsnum: str = Field(...)
+    disp_id: str = Field(...)
+    cont_sel: str = Field(...)
+    cont_amt: str = Field(...)
+    cont_tot: str = Field(...)
+    vfdat: str = Field(...)
+    aufnr: str = Field(...)
+    vornr: str = Field(...)
+    mesid: str = Field(...)
+
     def __str__(self):
-        return f"{self.proc_order}_{self.mat_code}_{self.container_id}"
+        return str(self.model_dump_json())
     
